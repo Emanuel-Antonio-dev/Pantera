@@ -100,66 +100,65 @@ function Navbar() {
   }, [open]);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-background/85 backdrop-blur-xl border-b border-border"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="container-page flex h-20 items-center justify-between">
-        <a href="#home" className="flex items-center gap-3">
-  <img src={panteraLogo6} alt="Pantera Jiu-Jitsu" className="h-11 w-11 rounded-full" />
-  <div className="leading-tight">
-    <div className="font-display text-base sm:text-lg tracking-widest">PANTERA</div>
-    <div className="text-[8px] sm:text-[10px] tracking-[0.35em] text-muted-foreground">JIU-JITSU</div>
-    <div className="text-[8px] sm:text-[10px] tracking-[0.35em] text-muted-foreground">ANGOLA</div>
-  </div>
-</a>
-        
-        <nav className="hidden lg:flex items-center gap-8">
-          {NAV.map((n) => (
-            <a
-              key={n.href}
-              href={n.href}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {n.label}
-            </a>
-          ))}
-        </nav>
-        
-        <div className="flex items-center gap-3">
-          <a
-            href="#contato"
-            className="hidden md:inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
-          >
-            Aula Experimental
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+          scrolled
+            ? "bg-background/85 backdrop-blur-xl border-b border-border"
+            : "bg-transparent"
+        }`}
+      >
+        <div className="container-page flex h-20 items-center justify-between">
+          <a href="#home" className="flex items-center gap-3">
+            <img src={panteraLogo6} alt="Pantera Jiu-Jitsu" className="h-11 w-11 rounded-full" />
+            <div className="leading-tight">
+              <div className="font-display text-base sm:text-lg tracking-widest">PANTERA</div>
+              <div className="text-[8px] sm:text-[10px] tracking-[0.35em] text-muted-foreground">JIU-JITSU</div>
+              <div className="text-[8px] sm:text-[10px] tracking-[0.35em] text-muted-foreground">ANGOLA</div>
+            </div>
           </a>
-          {/* Botão hambúrguer - só aparece quando sidebar fechado */}
-          {!open && (
+          
+          <nav className="hidden lg:flex items-center gap-8">
+            {NAV.map((n) => (
+              <a
+                key={n.href}
+                href={n.href}
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {n.label}
+              </a>
+            ))}
+          </nav>
+          
+          <div className="flex items-center gap-3">
+            <a
+              href="#contato"
+              className="hidden md:inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
+              Aula Experimental
+            </a>
             <button
-              className="lg:hidden text-foreground"
+              className="lg:hidden text-foreground relative z-[60]"
               onClick={() => setOpen(true)}
               aria-label="Abrir menu"
             >
               <Menu className="h-6 w-6" />
             </button>
-          )}
+          </div>
         </div>
-      </div>
+      </header>
 
       {/* Overlay */}
       {open && (
         <div 
-          className="fixed inset-0 bg-background/60 backdrop-blur-sm lg:hidden z-40"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] lg:hidden"
           onClick={() => setOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 right-0 h-full w-72 bg-background border-l border-border shadow-elegant transform transition-transform duration-300 ease-in-out lg:hidden z-50 ${
+        className={`fixed top-0 right-0 h-full w-72 bg-background border-l border-border shadow-2xl transform transition-transform duration-300 ease-in-out z-[70] ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -168,7 +167,7 @@ function Navbar() {
           <div className="flex items-center justify-between p-6 border-b border-border">
             <div className="flex items-center gap-3">
               <img src={panteraLogo6} alt="Pantera" className="h-8 w-8 rounded-full" />
-              <span className="font-display text-sm tracking-widest">PANTERA JIU-JITSU</span>
+              <span className="font-display text-sm tracking-widest">PANTERA</span>
             </div>
             <button
               onClick={() => setOpen(false)}
@@ -212,7 +211,7 @@ function Navbar() {
           </div>
         </div>
       </div>
-    </header>
+    </>
   );
 }
 function Hero() {
