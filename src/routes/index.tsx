@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState, useRef} from "react";
+import { useEffect, useState, useRef, useCallback} from "react";
 import {
   Menu, X, ShieldCheck, Users, TrendingUp, Heart, MapPin, Phone, Mail,
   Instagram, Facebook, Youtube, ChevronRight, Plus, Minus, Star, Wind,
-  Car, Baby, Sparkles, Award, DoorOpen, Trophy, Clock, Target,  Play, Pause 
+  Car, Baby, Sparkles, Award, DoorOpen, Trophy, Clock, Target,  Play, Pause, ChevronLeft, 
 } from "lucide-react";
 
 import heroImg from "@/assets/hero-training.jpg";
@@ -497,50 +497,130 @@ function Gallery() {
 // ==================== TESTIMONIALS ====================
 const TESTIMONIALS = [
   {
-    initials: "YV",
-    name: "Prof. Yuri Viriato",
-    role: "Faixa Preta (líder da academia Aliança do Tatame Angola)",
+    initials: "NJ",
+    name: "Nurine Jerônimo",
+    role: "Aluna",
     rating: 5,
-    text: "Ensinar na Pantera vai além da técnica. É formar carácter, disciplina e ver a evolução de cada aluno dentro e fora do tatame. Aqui formamos uma verdadeira família.",
+    text: "A Pantera me acolheu desde o primeiro dia. Aqui encontrei muito mais que um treino, encontrei uma família e uma nova paixão pelo Jiu-Jitsu.",
   },
   {
-    initials: "AG",
-    name: "Prof. Anderson Gouveia",
-    role: "Faixa Preta",
+    initials: "EZ",
+    name: "Emanuela Zacarias",
+    role: "Aluna",
     rating: 5,
-    text: "O Jiu-Jitsu transforma vidas, e ver isso acontecer diariamente com os nossos alunos é o que me motiva. A Pantera é um espaço de crescimento, respeito e superação.",
+    text: "O ambiente da academia é incrível. Os professores têm uma paciência e dedicação que fazem toda a diferença na nossa evolução dentro do tatame.",
   },
   {
-    initials: "JJ",
-    name: "Prof. Joselito",
-    role: "Faixa Preta",
+    initials: "KJ",
+    name: "Kuandina Jerônimo",
+    role: "Aluna",
     rating: 5,
-    text: "Cada aluno que entra no tatame carrega um potencial único. Meu compromisso é ajudar cada um a descobrir a sua melhor versão através da arte suave.",
+    text: "Comecei sem saber nada e hoje não me vejo mais longe do Jiu-Jitsu. A Pantera mudou minha rotina, minha confiança e a forma como encaro os desafios.",
+  },
+  {
+    initials: "LA",
+    name: "Leonardo Afonso",
+    role: "Aluno",
+    rating: 5,
+    text: "Treinar na Pantera é uma experiência transformadora. Disciplina, respeito e evolução constante. Recomendo a qualquer pessoa que queira crescer.",
+  },
+  {
+    initials: "MM",
+    name: "Mateus Muanda",
+    role: "Aluno",
+    rating: 5,
+    text: "Cada treino é um aprendizado novo. Os professores são atenciosos e a energia do tatame é contagiante. A melhor decisão que tomei foi me matricular aqui.",
   },
 ];
 
 function Testimonials() {
+  const [current, setCurrent] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
+  const next = useCallback(() => {
+    setCurrent((prev) => (prev + 1) % TESTIMONIALS.length);
+  }, []);
+
+  const prev = useCallback(() => {
+    setCurrent((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
+  }, []);
+
+  // Auto-play
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+    const interval = setInterval(next, 5000);
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, next]);
+
   return (
     <section className="section-pad bg-surface border-y border-border">
       <div className="container-page">
         <SectionHeader eyebrow="Depoimentos" title={<>O que dizem os nossos alunos.</>} subtitle="Depoimentos de quem vive a experiência Pantera Jiu-Jitsu." />
-        <div className="mt-14 grid md:grid-cols-3 gap-6">
-          {TESTIMONIALS.map((t) => (
-            <figure key={t.name} className="p-8 rounded-lg bg-card border border-border flex flex-col">
-              <div className="flex gap-1 text-primary">{Array.from({ length: t.rating }).map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}</div>
-              <blockquote className="mt-6 text-foreground leading-relaxed flex-1">"{t.text}"</blockquote>
-              <figcaption className="mt-8 flex items-center gap-4 pt-6 border-t border-border">
-                <div className="h-12 w-12 rounded-full bg-primary/15 text-primary flex items-center justify-center font-display text-sm tracking-wider">{t.initials}</div>
-                <div><div className="font-semibold text-sm">{t.name}</div><div className="text-xs text-muted-foreground">{t.role}</div></div>
-              </figcaption>
-            </figure>
-          ))}
+        
+        <div className="mt-14 relative max-w-2xl mx-auto">
+          {/* Cards */}
+          <div 
+            className="overflow-hidden"
+            onMouseEnter={() => setIsAutoPlaying(false)}
+            onMouseLeave={() => setIsAutoPlaying(true)}
+          >
+            <div 
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{ transform: `translateX(-${current * 100}%)` }}
+            >
+              {TESTIMONIALS.map((t, i) => (
+                <figure key={i} className="w-full flex-shrink-0 p-8 rounded-lg bg-card border border-border mx-2">
+                  <div className="flex gap-1 text-primary">
+                    {Array.from({ length: t.rating }).map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
+                  </div>
+                  <blockquote className="mt-6 text-foreground leading-relaxed min-h-[100px]">"{t.text}"</blockquote>
+                  <figcaption className="mt-8 flex items-center gap-4 pt-6 border-t border-border">
+                    <div className="h-12 w-12 rounded-full bg-primary/15 text-primary flex items-center justify-center font-display text-sm tracking-wider">{t.initials}</div>
+                    <div>
+                      <div className="font-semibold text-sm">{t.name}</div>
+                      <div className="text-xs text-muted-foreground">{t.role}</div>
+                    </div>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+
+          {/* Botões de navegação */}
+          <button 
+            onClick={prev}
+            className="absolute -left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-card border border-border flex items-center justify-center text-foreground hover:bg-surface hover:border-primary/40 transition-all shadow-elegant hidden md:flex"
+            aria-label="Depoimento anterior"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          
+          <button 
+            onClick={next}
+            className="absolute -right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-card border border-border flex items-center justify-center text-foreground hover:bg-surface hover:border-primary/40 transition-all shadow-elegant hidden md:flex"
+            aria-label="Próximo depoimento"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+
+          {/* Indicadores (dots) */}
+          <div className="flex justify-center gap-2 mt-6">
+            {TESTIMONIALS.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                className={`h-2 rounded-full transition-all ${
+                  i === current ? "w-6 bg-primary" : "w-2 bg-border hover:bg-primary/40"
+                }`}
+                aria-label={`Depoimento ${i + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 }
-
 // ==================== FAQ ====================
 const FAQ = [
   { q: "Preciso ter experiência prévia para começar?", a: "Não. A maioria dos nossos alunos começa do zero. Nossas turmas são estruturadas para acolher quem nunca pisou em um tatame." },
