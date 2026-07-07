@@ -725,6 +725,12 @@ function Presentation() {
 }
 // ==================== FINAL CTA ====================
 function FinalCta() {
+  // Mensagem codificada para ser enviada pelo WhatsApp
+  const whatsappMessage = encodeURIComponent(
+    "Olá, gostaria de marcar uma aula experimental de Jiu‑Jitsu."
+  );
+  const whatsappUrl = `https://wa.me/+244926714367?text=${whatsappMessage}`;
+
   return (
     <section id="contato" className="relative overflow-hidden">
       <div className="absolute inset-0">
@@ -733,10 +739,21 @@ function FinalCta() {
       </div>
       <div className="relative container-page section-pad text-center">
         <span className="eyebrow">Sua Jornada</span>
-        <h2 className="mt-6 font-display text-5xl sm:text-6xl lg:text-7xl leading-[1] max-w-4xl mx-auto">O primeiro passo <br /> começa <span className="text-primary">no tatame.</span></h2>
-        <p className="mt-8 max-w-2xl mx-auto text-lg text-muted-foreground leading-relaxed">Venha conhecer a Pantera Jiu-Jitsu. Traga roupa confortável, deixe o resto com a gente. Sua aula experimental está reservada.</p>
+        <h2 className="mt-6 font-display text-5xl sm:text-6xl lg:text-7xl leading-[1] max-w-4xl mx-auto">
+          O primeiro passo <br /> começa <span className="text-primary">no tatame.</span>
+        </h2>
+        <p className="mt-8 max-w-2xl mx-auto text-lg text-muted-foreground leading-relaxed">
+          Venha conhecer a Pantera Jiu-Jitsu. Traga roupa confortável, deixe o resto com a gente. Sua aula experimental está reservada.
+        </p>
         <div className="mt-10 flex flex-wrap justify-center gap-4">
-          <a href="https://wa.me/+244926714367" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-md bg-primary px-8 py-4 text-sm font-semibold uppercase tracking-wider text-primary-foreground hover:bg-primary/90 transition-all hover:shadow-elegant">Agendar Aula Experimental <ChevronRight className="h-4 w-4" /></a>
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-md bg-primary px-8 py-4 text-sm font-semibold uppercase tracking-wider text-primary-foreground hover:bg-primary/90 transition-all hover:shadow-elegant"
+          >
+            Agendar Aula Experimental <ChevronRight className="h-4 w-4" />
+          </a>
         </div>
       </div>
     </section>
